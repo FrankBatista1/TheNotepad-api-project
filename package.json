@@ -18,9 +18,6 @@
     "express-fileupload": "^1.2.1",
     "mongoose": "^6.0.5"
   },
-  "devDependencies": {
-    "morgan": "^1.10.0"
-  },
   "engines": {
     "node": "16.6.1"
   }
