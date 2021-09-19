@@ -28,6 +28,7 @@ app.use(cors());
 
 //routes 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/private', require('./routes/private'));
 app.use('/api/fields', require('./routes/field'));
 
 //Error Handler

@@ -10,10 +10,7 @@ exports.register = async (req, res, next) => {
       email,
       password,
     });
-    res.status(201).json({
-      success: true,
-      token: "43124dwe",
-    });
+    sendToken(user, 201, res);
   } catch (error) {
     // res.status(500).json({
     //   success: false,
@@ -36,14 +33,11 @@ exports.login = async (req, res, next) => {
       return next(new ErrorResponse('Invalid credentials', 401))
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await user.matchPasswords(password);
     if(!isMatch){
       return next(new ErrorResponse('Invalid credentials', 401))
     }
-    res.status(200).json({
-      success: true,
-      token: "194adf404",
-    });
+    sendToken(user, 200, res);
 
   } catch (error) {
     res.status(500).json({success: false, error: error.message})
@@ -57,3 +51,8 @@ exports.forgotpassword = (req, res, next) => {
 exports.resetpassword = (req, res, next) => {
   res.send("Reset password Route");
 };
+
+const sendToken = (user, statusCode, res) => {
+   const token = user.getSignedToken();
+   res.status(statusCode).json({success: true, token})
+}
