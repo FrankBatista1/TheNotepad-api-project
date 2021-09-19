@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dote  nv').config();
+require('dotenv').config();
 // const fileUpload = require('express-fileUpload') 
 
 const app = express();
@@ -26,11 +26,16 @@ app.use(cors());
 // app.use(fileUpload());
 
 //routes 
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/fields', require('./routes/field'));
 
 //port connection
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log('Server Running')
 })
 
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err}`);
+  server.close(() => process.exit(1));
+})
