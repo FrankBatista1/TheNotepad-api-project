@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dote  nv').config();
 // const fileUpload = require('express-fileUpload') 
 
 const app = express();
 
-require('dotenv').config();
 
 //db connection
 mongoose
@@ -33,3 +33,4 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log('Server Running')
 })
+
