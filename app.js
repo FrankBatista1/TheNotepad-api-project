@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const errorHandler = require('./middleware/error')
 require('dotenv').config();
 // const fileUpload = require('express-fileUpload') 
 
@@ -28,6 +29,11 @@ app.use(cors());
 //routes 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/fields', require('./routes/field'));
+
+//Error Handler
+
+app.use(errorHandler)
+
 
 //port connection
 const port = process.env.PORT || 8000;
