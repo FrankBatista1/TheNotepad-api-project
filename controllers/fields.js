@@ -1,3 +1,5 @@
+const Field = require("../models/Field");
+
 exports.getFields = (async (req, res) => {
   const fields = await Field.find();
   try{
