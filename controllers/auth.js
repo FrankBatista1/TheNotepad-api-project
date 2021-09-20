@@ -33,7 +33,7 @@ exports.login = async (req, res, next) => {
       return next(new ErrorResponse('Invalid credentials', 401))
     }
 
-    const isMatch = await user.matchPasswords(password);
+    const isMatch = await user.matchPassword(password);
     if(!isMatch){
       return next(new ErrorResponse('Invalid credentials', 401))
     }
@@ -44,8 +44,26 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.forgotpassword = (req, res, next) => {
-  res.send("Forgot password Route");
+exports.forgotpassword = async (req, res, next) => {
+  const {email} = req.body;
+  try {
+    const user = await User.findOne({email});
+    if(!user){
+      return next(new ErrorResponse('Email could not be sent', 404))
+    }
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save()
+
+    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+
+    const message = `
+    <h1>Password reset requested<h1>
+    <p>To reset your password go to this link<p>
+    <a href=${resetUrl} clicktracking=off>`
+  } catch (error) {
+    
+  }
 };
 
 exports.resetpassword = (req, res, next) => {
