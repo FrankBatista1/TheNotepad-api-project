@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const errorHandler = require('./middleware/error')
 require('dotenv').config();
-// const fileUpload = require('express-fileUpload') 
+
 
 const app = express();
 
@@ -18,13 +18,6 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
-// app.use(morgan('dev'));
-// app.use(fileUpload({
-//   useTempFiles: true,
-//   tempFileDir:'/tmp',
-//   createParentPath: true
-// }))
-// app.use(fileUpload());
 
 //routes 
 app.use('/api/auth', require('./routes/auth'));

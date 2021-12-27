@@ -31,27 +31,7 @@ exports.postAField = (async (req, res) => {
   }
 })
 // //POST image
-// router.post('/field/image/:id', async (req, res) => {
-//   const fieldToUpdate = await Field.findById();
 
-//   //deleting the current img if its one and updating it
-//   if (fieldToUpdate.img) {
-//     let array = fieldToUpdate.img.split('/');
-//     let fileName = array[array.length-1];
-//     const [public_id] = fileName.split('.');
-//     await cloudinary.uploader.destroy(public_id);
-//     const { tempFilePath } = req.files.image;
-  
-//     const {secure_url} = await cloudinary.uploader.upload(tempFilePath);
-//     fieldToUpdate.img = secure_url;
-//     await fieldToUpdate.save();
-//     try {
-//       return res.status(201).json(fieldToUpdate);
-//     } catch (error) {
-//       return res.status(500).json({message: "There was an error uploading the image"})
-//     }
-//   }
-// })
 //PUT field
 exports.updateAField = (async (req, res) => {
   const fieldToUpdate = await Field.findByIdAndUpdate(req.params.id, req.body, {new: true});
