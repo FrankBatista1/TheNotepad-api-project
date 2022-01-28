@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: [true, "Please provide username"],
+    trim: true,
   },
   email: {
     type: String,
@@ -20,7 +21,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
     require: [true, "Please add a password"],
-    minlength: 6,
+    match: [
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      "Please provide a strong password (minimum eight characters, at least one uppercase letter, one lowercase letter and one number)",
+    ],
     select: false,
   },
   resetPasswordToken: String,
@@ -37,10 +41,8 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.methods.matchPassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
-};
-UserSchema.methods.getSignedToken = function () {
+UserSchema.methods.getSignedJwtToken = function () {
+  const uid = this._id;
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
@@ -61,6 +63,4 @@ UserSchema.methods.getResetPasswordToken = function () {
   return resetToken;
 };
 
-const User = mongoose.model("User", UserSchema);
-
-module.exports = User;
+module.exports = model("User", UserSchema);
