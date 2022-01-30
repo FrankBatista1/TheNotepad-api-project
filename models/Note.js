@@ -1,9 +1,9 @@
 const { model, Schema } = require("mongoose");
 
-const fieldSchema = new Schema({
+const notesSchema = new Schema({
   time: Number,
   blocks: [],
   version: String
 });
 
-module.exports = model('Field', fieldSchema);
+module.exports = model('Notes', notesSchema);
