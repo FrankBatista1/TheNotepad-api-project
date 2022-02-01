@@ -27,6 +27,7 @@ exports.postANote = async (req, res) => {
     times: req.body.times,
     blocks: req.body.blocks,
     version: req.body.version,
+    uid: req.params.id,
   });
   try {
     return res.status(200).json(noteCreated);
