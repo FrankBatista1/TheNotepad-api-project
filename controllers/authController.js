@@ -1,24 +1,25 @@
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 
-exports.register = async (req, res, next) => {
-  const { username, email, password } = req.body;
-
-  try {
-    const user = await User.create({
-      username,
-      email,
-      password,
-    });
-    sendToken(user, 201, res);
-  } catch (error) {
-    // res.status(500).json({
-    //   success: false,
-    //   error: error.message,
-    // })
-    next(error);
+exports.signup = async (req, res, next) => {
+  //checking for existent email
+  const { email , name, password} = req.body
+  if (!name || !email || !password) {
+    return next(new ErrorResponse("Please provide an name, email and password", 400));
   }
-};
+  const testEmail = await User.findOne({email});
+  if (testEmail) {
+    return next(new ErrorResponse("Please provide a valid email", 400))
+  }
+  //creating the new User and hashing the password
+  const user = await new User({name, email, password});
+  try {
+    await user.save();
+    sendToken(user, 200, res);
+  } catch (error) {
+    next(error)
+  }
+}
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;

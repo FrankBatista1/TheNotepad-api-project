@@ -2,9 +2,10 @@ const Note = require("../models/Note");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.getNotes = async (req, res) => {
-  const notes = await Note.find();
+  const { id } = req.params
+  const userNotes = await Note.find({ uid: id })
   try {
-    if (notes.length === 0) {
+    if (userNotes.length === 0) {
       return next(new ErrorResponse("User doesn't have notes", 404));
     }
     return res.status(200).json(notes);

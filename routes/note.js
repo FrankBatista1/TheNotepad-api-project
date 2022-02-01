@@ -3,20 +3,20 @@ const cloudinary = require('cloudinary').v2;
 const Note = require('../models/Note');
 const router = express.Router();
 const { getNotes, getOneNote, postANote, updateANote, deleteOneNote} = require("../controllers/notesController");
-const { protect } = require("../middleware/auth");
+const { verifyJwt } = require("../middleware/verifyJwt");
 
 
 //GET
-router.route("/").get(protect, getNotes);
+router.route("/notes/user/:id").get(verifyJwt, getNotes);
 
 //GET 1 
-router.route('/field/:id').get(protect, getOneNote);
+router.route('notes/user/:id').get( getOneNote);
 //POST
-router.route('/field').post(protect, postANote)
+router.route('notes/user').post(postANote)
 
-//PUT field
-router.route('/field/:id').put(protect, updateANote)
+//PUT note
+router.route('/note/:id').put(updateANote)
 //DELETE
-router.route('/field/:id').delete(protect, deleteOneNote)
+router.route('/note/:id').delete(deleteOneNote)
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {deleteUserById, getUserById, updateUserById} = require('../controllers/userController')
-const {verifyJwt} = require('../middlewares/verifyJwt')
+const {verifyJwt} = require('../middleware/verifyJwt')
 
 
 router.get('/user/:id',verifyJwt, getUserById);
