@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
+const bcrypt = require('bcryptjs');
+// const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 exports.signup = async (req, res, next) => {
   //checking for existent email
@@ -22,34 +25,26 @@ exports.signup = async (req, res, next) => {
 }
 
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    // res.status(400).json({success: false, error: "Please provide email and password"})
-    return next(new ErrorResponse("Please provide an email and password", 400));
+  const {email, password} = req.body
+  const user = await User.findOne({email}).select("+password");
+  //checking if the user exist
+  if(!user){
+    return next(new ErrorResponse("Please check credentials", 401))
   }
-  try {
-    const user = await User.findOne({ email }).select("+password");
-    if (!user) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-    sendToken(user, 200, res);
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+  //validating the hashed password
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    return next(new ErrorResponse("Please check credentials", 401))
   }
-};
+  sendToken(user, 200, res);
+}
 
 exports.signup = async (req, res, next) => {
   //checking for existent email
   const { email, name, password } = req.body;
   if (!name || !email || !password) {
     return next(
-      new ErrorResponse("Please provide an name, email and password", 400)
+      new ErrorResponse("Please provide a name, email and password", 400)
     );
   }
   const testEmail = await User.findOne({ email });

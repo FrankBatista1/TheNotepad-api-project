@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserSchema = new Schema({
-  username: {
+  name: {
     type: String,
     required: [true, "Please provide username"],
     trim: true,
@@ -41,7 +41,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.methods.getSignedJwtToken = function () {
+UserSchema.methods.getSignedToken = function () {
   const uid = this._id;
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
