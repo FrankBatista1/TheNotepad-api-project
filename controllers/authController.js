@@ -125,7 +125,7 @@ exports.resetPassword = async (req, res, next) => {
     res.status(201).json({
       success: true,
       data: "Password succesfully updated",
-      token: user.getSignedJwtToken(),
+      token: user.getSignedToken(),
     });
   } catch (err) {
     next(err);
@@ -138,5 +138,6 @@ exports.resetpassword = (req, res, next) => {
 
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedToken();
-  res.status(statusCode).json({ success: true, token });
+  const uid = user._id
+  res.status(statusCode).json({ sucess: true, token, uid});
 };
