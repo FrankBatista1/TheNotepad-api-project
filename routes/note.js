@@ -12,11 +12,11 @@ router.route("/note/user/:id").get(verifyJwt, getNotes);
 //GET 1 
 router.route('note/user/:id').get( getOneNote);
 //POST
-router.route('note/user/:id').post(postANote)
+router.route('note/user/:id').post(postANote);
 
 //PUT note
-router.route('/note/:id').put(updateANote)
+router.route('/note/:id').put(updateANote);
 //DELETE
-router.route('/note/:id').delete(deleteOneNote)
+router.route('/note/:id').delete(deleteOneNote);
 
 module.exports = router;
