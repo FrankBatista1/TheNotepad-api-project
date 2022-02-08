@@ -7,7 +7,7 @@ const { verifyJwt } = require("../middleware/verifyJwt");
 
 
 //GET
-router.route("/note/user/:id").get(verifyJwt, getNotes);
+router.route("/note/user/:id").get(getNotes);
 
 //GET 1 
 router.route('/note/user/:id').get( getOneNote);

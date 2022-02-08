@@ -8,9 +8,9 @@ exports.getNotes = async (req, res) => {
     if (userNotes.length === 0) {
       return next(new ErrorResponse("User doesn't have notes", 404));
     }
-    return res.status(200).json(notes);
+    return res.status(200).json(userNotes);
   } catch (error) {
-    return res.status(500).json({ message: "Could not get the notes" });
+    return res.status(500).json({ message: "Could not get notes" });
   }
 };
 //GET 1
