@@ -10,9 +10,9 @@ const { verifyJwt } = require("../middleware/verifyJwt");
 router.route("/note/user/:id").get(verifyJwt, getNotes);
 
 //GET 1 
-router.route('note/user/:id').get( getOneNote);
+router.route('/note/user/:id').get( getOneNote);
 //POST
-router.route('note/user/:id').post(postANote);
+router.route('/note/user/:id').post(postANote);
 
 //PUT note
 router.route('/note/:id').put(updateANote);
