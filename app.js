@@ -4,7 +4,7 @@ const cors = require('cors');
 const errorHandler = require('./middleware/error')
 require('dotenv').config();
 
-
+mongoose.set('strictQuery', true)
 const app = express();
 
 
